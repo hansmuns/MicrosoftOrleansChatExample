@@ -1,0 +1,35 @@
+﻿@page "/chats/{Chatroom}"
+@rendermode InteractiveServer
+
+<PageTitle>@Chatroom</PageTitle>
+
+<MudText Typo="Typo.caption">Username: @username</MudText>
+<MudStack Row>
+    <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="() => NavigationManager.NavigateTo(string.Empty)" Size="Size.Large" />
+    <MudText Typo="Typo.h3">@Chatroom</MudText>
+</MudStack>
+<MudStack>
+    <MudStack id="chat" Style="height:70vh; overflow-x:scroll; display:flex; flex-direction: column-reverse;">
+        @foreach (var message in messages)
+        {
+            <MudCard Outlined Elevation="3" Class="pa-3">
+                <MudStack AlignItems="message.Username == this.username ? AlignItems.End : AlignItems.Start">
+                    <MudText Typo="Typo.subtitle2">@message.Username</MudText>
+                    <MudText Typo="Typo.body1">@message.Message</MudText>
+                    <MudText Typo="Typo.caption">@message.DateTimeSend.ToLocalTime()</MudText>
+                </MudStack>
+            </MudCard>
+        }
+    </MudStack>
+    <MudStack Row>
+        <MudTextField TextUpdateSuppression="false" @bind-Value="draftMessage" OnKeyUp="KeyUpSendMessageAsync" Label="Message" />
+        <MudButton OnClick="SendMessageAsync">Send</MudButton>
+    </MudStack>
+</MudStack>
+
+<script>
+    function updateScroll() {
+        var element = document.getElementById("chat");
+        element.scrollTop = element.scrollHeight;
+    }
+</script>

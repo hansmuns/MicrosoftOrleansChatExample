@@ -1,0 +1,17 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Chat selection</PageTitle>
+
+<MudText Typo="Typo.caption">Username: @username</MudText>
+<MudStack>
+    <MudStack Row>
+        <MudTextField TextUpdateSuppression="false" @bind-Value="chatroomName" OnKeyUp="KeyUpCreateChatAsync" Label="Chatroom" />
+        <MudButton OnClick="CreateChatAsync">Start Chat</MudButton>
+    </MudStack>
+
+    @foreach (var room in chatrooms)
+    {
+        <MudButton Variant="Variant.Filled" OnClick="() => JoinChatAsync(room)">@room</MudButton>
+    }
+</MudStack>
